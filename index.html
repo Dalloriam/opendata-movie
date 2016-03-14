@@ -13,11 +13,13 @@
 
     </head>
     <body>
+    <div class="container">
+        <h1>Escape To San Francisco</h1>
 
-        <h1>Home</h1>
+        <p>Open data about movies filmed in San Francisco</p>
 
         <div class="table-responsive">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th>#</th>
@@ -31,7 +33,7 @@
             </tbody>
           </table>
         </div>
-
+</div>
         <!-- Modal -->
           <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog modal-lg">
@@ -61,7 +63,14 @@
         <script>
             $(function() {
                 var apiUrl = "http://localhost:5000/movie/top";
+                
+                // EXAMPLE
+                /*var json = '{"movies":[{"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}, {"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}]}';
 
+                var response = $.parseJSON(json);*/
+                // END EXAMPLE
+
+                
                 $.getJSON( apiUrl, function(response) {
                     $.each(response.movies, function(i, item) {
                         var $tr = $('<tr>').append(
@@ -73,6 +82,7 @@
                         ).appendTo('tbody');
                     });
                 });
+
 
                 $(".details-btn").click(function(event) {
 
