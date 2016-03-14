@@ -16,7 +16,7 @@
 
         <h1>Home</h1>
 
-        <div class="table-responsive">          
+        <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
@@ -55,35 +55,35 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
         <script>
-            var json = '{"movies":[{"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}, {"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}]}';
+            // var json = '{"movies":[{"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}, {"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}]}';
+            //
+            // response = $.parseJSON(json);
+            //
+            // $(function() {
+            //     $.each(response.movies, function(i, item) {
+            //         var $tr = $('<tr>').append(
+            //             $('<td>').text(item.id),
+            //             $('<td>').prepend("<img src='" + item.cover_url + "' class='img-responsive' width='50'/>"),
+            //             $('<td>').text(item.title),
+            //             $('<td>').text(item.year),
+            //             $('<td>').prepend("")
+            //         ).appendTo('tbody');
+            //     });
+            // });
 
-            response = $.parseJSON(json);
+            var apiUrl = "http://localhost:5000/movie/top";
 
-            $(function() {
+            $.getJSON( apiUrl, function( data ) {
                 $.each(response.movies, function(i, item) {
                     var $tr = $('<tr>').append(
                         $('<td>').text(item.id),
-                        $('<td>').prepend("<img src='" + item.cover_url + "' class='img-responsive' width='50'/>"),
+                        $('<td>').prepend("<img src='" + item.img_url + "' class='img-responsive' width='32'/>"),
                         $('<td>').text(item.title),
                         $('<td>').text(item.year),
                         $('<td>').prepend("")
                     ).appendTo('tbody');
                 });
             });
-            
-            /*var apiUrl = "www.urlApi.com/movie";
-
-            $.getJSON( apiUrl, function( data ) {
-                $.each(response.movies, function(i, item) {
-                    var $tr = $('<tr>').append(
-                        $('<td>').text(item.id),
-                        $('<td>').prepend("<img src='" + item.cover_url + "' class='img-responsive' width='32'/>"),
-                        $('<td>').text(item.title),
-                        $('<td>').text(item.year),
-                        $('<td>').prepend("")
-                    ).appendTo('tbody');
-                });
-            });*/
         </script>
     </body>
 </html>
