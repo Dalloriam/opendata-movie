@@ -16,8 +16,74 @@
 
         <h1>Home</h1>
 
+        <div class="table-responsive">          
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Cover Art</th>
+                <th>Name</th>
+                <th>Year</th>
+                <th>See details</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Modal -->
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                  <p>This is a large modal.</p>
+                  <img src="http://cdn-static.denofgeek.com/sites/denofgeek/files/styles/article_main_wide_image/public/2015/10/main.jpg?itok=Nl4CIc_f" />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <script>
+            var json = '{"movies":[{"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}, {"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}]}';
+
+            response = $.parseJSON(json);
+
+            $(function() {
+                $.each(response.movies, function(i, item) {
+                    var $tr = $('<tr>').append(
+                        $('<td>').text(item.id),
+                        $('<td>').prepend("<img src='" + item.cover_url + "' class='img-responsive' width='50'/>"),
+                        $('<td>').text(item.title),
+                        $('<td>').text(item.year),
+                        $('<td>').prepend("")
+                    ).appendTo('tbody');
+                });
+            });
+            
+            /*var apiUrl = "www.urlApi.com/movie";
+
+            $.getJSON( apiUrl, function( data ) {
+                $.each(response.movies, function(i, item) {
+                    var $tr = $('<tr>').append(
+                        $('<td>').text(item.id),
+                        $('<td>').prepend("<img src='" + item.cover_url + "' class='img-responsive' width='32'/>"),
+                        $('<td>').text(item.title),
+                        $('<td>').text(item.year),
+                        $('<td>').prepend("")
+                    ).appendTo('tbody');
+                });
+            });*/
+        </script>
     </body>
 </html>
