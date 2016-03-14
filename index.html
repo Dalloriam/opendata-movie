@@ -16,7 +16,7 @@
 
         <h1>Home</h1>
 
-        <div class="table-responsive">          
+        <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
@@ -59,48 +59,34 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
         <script>
-            var json = '{"movies":[{"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}, {"id": 1, "title": "Batman", "cover_url": "http://www.garrybrownart.com/wp-content/gallery/dc-covers/batman-cover-final.jpg", "year": "2011"}]}';
-
-            response = $.parseJSON(json);
-
             $(function() {
-                $.each(response.movies, function(i, item) {
-                    var $tr = $('<tr>').append(
-                        $('<td>').text(item.id),
-                        $('<td>').prepend("<img src='" + item.cover_url + "' class='img-responsive' width='50'/>"),
-                        $('<td>').text(item.title),
-                        $('<td>').text(item.year),
-                        $('<td>').prepend('<button type="button" class="btn btn-info btn-lg details-btn" data-toggle="modal" data-target="#myModal" id="' + i + '">Open Large Modal</button>')
-                    ).appendTo('tbody');
+                var apiUrl = "http://localhost:5000/movie/top";
+
+                $.getJSON( apiUrl, function(response) {
+                    $.each(response.movies, function(i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').text(item.id),
+                            $('<td>').prepend("<img src='" + item.img_url + "' class='img-responsive' width='32'/>"),
+                            $('<td>').text(item.title),
+                            $('<td>').text(item.year),
+                            $('<td>').prepend('<button type="button" class="btn btn-info btn-lg details-btn" data-toggle="modal" data-target="#myModal" id="' + item.id + '">Open Large Modal</button>')
+                        ).appendTo('tbody');
+                    });
                 });
 
                 $(".details-btn").click(function(event) {
-                    var movie = response.movies[event.target.id];
-                    $("#modal_title").text(movie.title);
-                    $("#modal-year").text(movie.year);
-                    $("#modal-img").attr("src", movie.cover_url);
+
+                    var apiGetMovie = "http://localhost:5000/movie/" + event.target.id;
+
+                    $.getJSON( apiGetMovie, function(response) {
+                        $.each(response.movies, function(i, item) {
+                            $("#modal_title").text(item.title);
+                            $("#modal-year").text(item.year);
+                            $("#modal-img").attr("src", item.cover_url);
+                        });
+                    });
                 });
             });
-
-
-            /*var apiUrl = "www.urlApi.com/movie";
-
-            $.getJSON( apiUrl, {
-                tags: "mount rainier",
-                tagmode: "any",
-                format: "json"
-            })
-            .done(function(data) {
-                $.each(response.movies, function(i, item) {
-                    var $tr = $('<tr>').append(
-                        $('<td>').text(item.id),
-                        $('<td>').prepend("<img src='" + item.cover_url + "' class='img-responsive' width='32'/>"),
-                        $('<td>').text(item.title),
-                        $('<td>').text(item.year),
-                        $('<td>').prepend("")
-                    ).appendTo('tbody');
-                });
-            });*/
         </script>
     </body>
 </html>
