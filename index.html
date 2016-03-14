@@ -74,7 +74,7 @@
             var apiUrl = "http://localhost:5000/movie/top";
 
             $.getJSON( apiUrl, function( data ) {
-                $.each(response.movies, function(i, item) {
+                $.each(data, function(i, item) {
                     var $tr = $('<tr>').append(
                         $('<td>').text(item.id),
                         $('<td>').prepend("<img src='" + item.img_url + "' class='img-responsive' width='32'/>"),

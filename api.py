@@ -2,7 +2,7 @@ import json
 import requests
 import omdb
 from flask import Flask, request
-from movie import MovieShort
+from movie import MovieShort, MovieLong
 
 
 app = Flask(__name__)
@@ -21,20 +21,19 @@ def movie_from_title(movie_title):
 
 @app.route('/movie/top', methods=['POST', 'GET'])
 def handle_top():
-  print("HIT")
   rq_json = request.get_json()
 
   if rq_json and 'count' in rq_json:
     limit = rq_json['count']
   else:
-    limit = 100
+    limit = 10
 
-  max_limit = limit * 2
+  max_limit = limit * 5
 
   data = requests.get(endpoint_url + "?$limit={0}".format(max_limit))
   return_json = data.json()
   movie_title = return_json
-  title_list = [movie['title'] for movie in movie_title]
+  title_list = list(set([movie['title'] for movie in movie_title]))
 
   result_list = []
 
@@ -45,9 +44,24 @@ def handle_top():
       if result:
         result_list.append(result)
 
-
-
   return json.dumps([movie.get_json() for movie in result_list])
+
+@app.route('/movie/<movie_id>')
+def handle_movie_details(movie_id):
+  resp = omdb.request(i=movie_id).json()
+  description = resp['Plot']
+  title = resp["Title"]
+  cover_url = resp["Poster"]
+  year = resp["Year"]
+  director = resp["Director"]
+  data = requests.get(endpoint_url+"?$select=locations&title={0}".format(title)).json()
+  print(data)
+  return "HELLO"
+
+@app.after_request
+def add_headers(response):
+  response.headers["Access-Control-Allow-Origin"] = "http://localhost:8000"
+  return response
 
 
 if __name__ == "__main__":
