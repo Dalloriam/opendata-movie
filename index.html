@@ -38,11 +38,15 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Modal Header</h4>
+                  <h4 class="modal-title" id="modal_title"></h4>
                 </div>
-                <div class="modal-body">
-                  <p>This is a large modal.</p>
-                  <img src="http://cdn-static.denofgeek.com/sites/denofgeek/files/styles/article_main_wide_image/public/2015/10/main.jpg?itok=Nl4CIc_f" />
+                <div class="modal-body container">
+                  <div class="col-xs-6">
+                    <img id="modal-img" class="img-responsive" />
+                  </div>
+                  <div class="col-xs-6">
+                    <p id="modal-year"></p>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -66,14 +70,27 @@
                         $('<td>').prepend("<img src='" + item.cover_url + "' class='img-responsive' width='50'/>"),
                         $('<td>').text(item.title),
                         $('<td>').text(item.year),
-                        $('<td>').prepend("")
+                        $('<td>').prepend('<button type="button" class="btn btn-info btn-lg details-btn" data-toggle="modal" data-target="#myModal" id="' + i + '">Open Large Modal</button>')
                     ).appendTo('tbody');
                 });
+
+                $(".details-btn").click(function(event) {
+                    var movie = response.movies[event.target.id];
+                    $("#modal_title").text(movie.title);
+                    $("#modal-year").text(movie.year);
+                    $("#modal-img").attr("src", movie.cover_url);
+                });
             });
-            
+
+
             /*var apiUrl = "www.urlApi.com/movie";
 
-            $.getJSON( apiUrl, function( data ) {
+            $.getJSON( apiUrl, {
+                tags: "mount rainier",
+                tagmode: "any",
+                format: "json"
+            })
+            .done(function(data) {
                 $.each(response.movies, function(i, item) {
                     var $tr = $('<tr>').append(
                         $('<td>').text(item.id),
